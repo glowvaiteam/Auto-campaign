@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get GlobVai - Smart Skincare</title>
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-main: #0a0a0a;
+      --text-muted: #666666;
+      --brand-blue: #0066ff;
+      --brand-blue-light: #e6f0ff;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    /* Top branding */
+    .header {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 32px;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .logo span {
+      color: var(--brand-blue);
+    }
+
+    /* The Offer Banner */
+    .offer-card {
+      background: var(--brand-blue-light);
+      border: 1px solid rgba(0, 102, 255, 0.1);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .offer-tag {
+      display: inline-block;
+      background: var(--brand-blue);
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .offer-card h2 {
+      font-size: 1.6rem;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .offer-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Visual Placeholder */
+    .app-preview {
+      background: #f4f5f7;
+      border-radius: var(--radius-lg);
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 40px;
+      color: var(--text-muted);
+      font-weight: 500;
+      border: 1px dashed #d1d5db;
+    }
+
+    /* Buttons */
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: auto; /* Pushes buttons to bottom */
+      padding-bottom: 24px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.1s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn-primary {
+      background: var(--text-main);
+      color: white;
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-main);
+      border: 2px solid var(--text-main);
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div class="logo">Glob<span>Vai</span></div>
+    </div>
+
+    <div class="offer-card">
+      <div class="offer-tag">Exclusive Offer</div>
+      <h2>Get ₹20 off your first skincare order</h2>
+      <p>Scan your face, get your personalized report, and claim your discount instantly.</p>
+    </div>
+
+    <div class="app-preview">
+      [ App Screenshot / GIF Here ]
+    </div>
+
+    <div class="btn-group">
+      <!-- These links will be updated to point to your deep link / app store router -->
+      <a href="#" class="btn btn-primary" id="install-btn">Download App</a>
+    </div>
+  </div>
+
+  <script>
+    // --- Hidden Background Logic ---
+
+    // 1. Extract Driver ID from URL (e.g., /install?ref=DRV_123)
+    const urlParams = new URLSearchParams(window.location.search);
+    const driverRef = urlParams.get('ref') || 'UNKNOWN';
+
+    // 2. Generate a simple device fingerprint/session ID
+    // In production, use a library like FingerprintJS or simply generate a UUID
+    // and store it in localStorage so the app can read it via a deferred deep link.
+    let sessionId = localStorage.getItem('globvai_session');
+    if (!sessionId) {
+      sessionId = 'sess_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('globvai_session', sessionId);
+    }
+
+    // 3. Log the scan event to your backend (non-blocking)
+    async function logScanEvent() {
+      try {
+        console.log(`Logging scan for Driver: ${driverRef}, Session: ${sessionId}`);
+        
+        // Uncomment when backend is ready:
+        /*
+        await fetch('https://api.globvai.com/api/scan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ref_code: driverRef,
+            device_fp: sessionId,
+            timestamp: new Date().toISOString()
+          })
+        });
+        */
+      } catch (error) {
+        console.error("Scan logging failed silently", error);
+      }
+    }
+
+    // Fire event immediately on page load
+    logScanEvent();
+
+    // 4. Attach session ID to install button for deferred deep linking
+    document.getElementById('install-btn').addEventListener('click', function(e) {
+      // e.preventDefault();
+      // Redirect to a dynamic link like Branch.io or Firebase Dynamic Links
+      // e.g., window.location.href = `https://app.globvai.com/download?session=${sessionId}&ref=${driverRef}`;
+      console.log("Redirecting to app store with tracking...");
+    });
+  </script>
+</body>
+</html>
