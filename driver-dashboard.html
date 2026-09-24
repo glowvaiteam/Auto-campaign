@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Driver Portal - GlobVai</title>
+  <style>
+    /* CSS Variables for White, Black, and Blue Palette */
+    :root {
+      --bg-color: #f4f5f7;        /* Very light gray for contrast against white cards */
+      --card-bg: #ffffff;         /* Pure white */
+      --text-main: #0a0a0a;       /* Deep black */
+      --text-muted: #666666;      /* Gray for labels */
+      --status-blue: #0066ff;     /* Vibrant status blue */
+      --status-blue-light: #e6f0ff; /* Light blue for backgrounds */
+      --radius-lg: 24px;          /* Heavy rounding for Bento style */
+      --radius-sm: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 16px;
+      padding-bottom: 40px;
+    }
+
+    .header {
+      max-width: 600px;
+      margin: 0 auto 24px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 8px;
+    }
+
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      background-color: var(--text-main);
+      color: var(--card-bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+
+    /* Bento Grid Layout */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .bento-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      transition: transform 0.2s ease;
+    }
+
+    .bento-card:active {
+      transform: scale(0.98);
+    }
+
+    /* Spans full width of the mobile grid */
+    .span-2 {
+      grid-column: span 2;
+    }
+
+    /* Typography inside cards */
+    .label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .value {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    /* Specific Card Styles */
+    .earnings-card {
+      background: var(--status-blue);
+      color: var(--card-bg);
+    }
+    .earnings-card .label {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .qr-card {
+      background: var(--status-blue-light);
+      align-items: center;
+      text-align: center;
+      border: 2px dashed var(--status-blue);
+    }
+    .qr-icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+    .qr-card .value {
+      font-size: 1.1rem;
+      color: var(--status-blue);
+    }
+
+    .action-button {
+      background: var(--text-main);
+      color: var(--card-bg);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      width: 100%;
+      cursor: pointer;
+      text-align: center;
+      margin-top: 12px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .whatsapp-btn {
+      background: #25D366; /* WhatsApp Green, or swap to var(--status-blue) to keep strict palette */
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Welcome back,</p>
+      <h1>Rahul Kumar</h1>
+    </div>
+    <div class="profile-pic">RK</div>
+  </div>
+
+  <div class="bento-grid">
+    
+    <!-- Earnings (Featured) -->
+    <div class="bento-card earnings-card span-2">
+      <div class="label">Est. Earnings (This Month)</div>
+      <div class="value">₹3,450</div>
+      <p style="font-size: 0.85rem; margin-top: 8px; opacity: 0.9;">Payout due: 1st Oct</p>
+    </div>
+
+    <!-- Scans -->
+    <div class="bento-card">
+      <div class="label">Total Scans</div>
+      <div class="value">142</div>
+      <p style="font-size: 0.8rem; color: var(--status-blue); font-weight: 600; margin-top: 8px;">+12 today</p>
+    </div>
+
+    <!-- Installs -->
+    <div class="bento-card">
+      <div class="label">Verified Installs</div>
+      <div class="value">68</div>
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 8px;">47% conversion</p>
+    </div>
+
+    <!-- Show QR Code -->
+    <div class="bento-card qr-card span-2" onclick="alert('Show QR Code Modal here')">
+      <div class="qr-icon">📱</div>
+      <div class="value">Tap to display QR Code</div>
+      <div class="label" style="margin-top: 4px; margin-bottom: 0;">ID: DRV_123</div>
+    </div>
+
+    <!-- Leaderboard Rank -->
+    <div class="bento-card">
+      <div class="label">City Rank</div>
+      <div class="value">#14</div>
+    </div>
+
+    <!-- Support -->
+    <div class="bento-card">
+      <div class="label">Help & Support</div>
+      <a href="#" class="action-button whatsapp-btn" style="padding: 10px; margin-top: 0; font-size: 0.9rem;">WhatsApp Us</a>
+    </div>
+
+  </div>
+
+</body>
+</html>
